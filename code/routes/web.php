@@ -17,6 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/test/{id}', function ($id) {
-    dd();
-    return view('test',['id'=>$id]);
+
+    return response('test '. $id);
 });
