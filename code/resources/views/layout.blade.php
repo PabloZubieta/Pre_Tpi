@@ -15,29 +15,22 @@
 </head>
 <body>
 <header>
-<h2>les fou du volant</h2>
+<h2>Ecolopnv</h2>
 </header>
 <nav>
     <ul class="nav">
-
         <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
 
-        <?php
-        if (isset($_SESSION['connected'])) {
-            ?>
+        @auth
+
         <li class="nav-item"><a class="nav-link" href="#">My Carpooling</a></li>
         <li class="nav-item"><a class="nav-link" href="#">My Schedule</a></li>
         <li class="nav-item"><a class="nav-link" href="#">My Profile</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
-            <?php
-        } else {
-            ?>
+        @else
         <li class="nav-item"><a class="navlink" href="#">Login</a></li>
         <li class="nav-item"><a class="navlink" href="#">Sign in</a></li>
-            <?php
-        }
-
-        ?>
+        @endauth
     </ul>
 </nav>
 @yield('content')

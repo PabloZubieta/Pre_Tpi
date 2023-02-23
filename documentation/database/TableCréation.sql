@@ -2,6 +2,21 @@
 -- Thu Feb  9 14:09:36 2023
 -- Model: New Model    Version: 1.0
 -- MySQL Workbench Forward Engineering
+DELIMITER //
+
+
+CREATE PROCEDURE edt_treat2()
+BEGIN
+
+    DECLARE myvar mediumtext ;
+
+-- Assigning the string to the variable
+    SET myvar = (SELECT EDT_schedule  FROM edt);
+    SELECT SUBSTRING_INDEX(myvar ,'\r\n',3) AS newr;
+END //
+DELIMITER ;
+
+CALL edt_treat2();
 
 CREATE DATABASE IF NOT EXISTS `Carpool`  /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 
