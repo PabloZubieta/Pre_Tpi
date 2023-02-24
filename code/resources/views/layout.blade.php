@@ -28,8 +28,8 @@
         <li class="nav-item"><a class="nav-link" href="#">My Profile</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
         @else
-        <li class="nav-item"><a class="navlink" href="#">Login</a></li>
-        <li class="nav-item"><a class="navlink" href="#">Sign in</a></li>
+        <li class="nav-item"><a class="navlink" href="/login">Login</a></li>
+        <li class="nav-item"><a class="navlink" href="/signin">Sign in</a></li>
         @endauth
     </ul>
 </nav>
