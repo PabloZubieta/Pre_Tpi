@@ -30,8 +30,8 @@
                 @enderror
             </div>
             <div class="mb-3">
-                <label for="car_seat">Email:</label>
-                <input type="number"  name="car_seat" placeholder="email"
+                <label for="car_seat">Place de voiture:</label>
+                <input type="number"  name="car_seat" placeholder="Place de voiture"
                        value="{{old('car_seat')}}">
                 @error('car_seat')
                 <p>{{$message}}</p>

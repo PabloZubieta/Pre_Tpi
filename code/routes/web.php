@@ -23,3 +23,9 @@ Route::get('/signin', [UserController::class, 'signin']);
 
 Route::put('/users', [UserController::class, 'activate']);
 
+route::post('/logout', [UserController::class,'logout']);
+
+route::post('/log',[UserController::class,'log']);
+
+
+
