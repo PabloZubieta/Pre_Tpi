@@ -10,12 +10,12 @@
 
 @section('content')
     <div>
-        <form method="POST" action="/users">
+        <form method="POST" action="/log">
             @csrf <!-- juste de la securité  https://laravel.com/docs/5.8/csrf -->
             <div class="mb-3 mt-3">
                 <label for="username">Acronyme</label>
                 <input type="text"  name="username" placeholder="Acronyme">
-                @error('name')
+                @error('username')
                 <p>{{$message}}</p>
                 @enderror
             </div>

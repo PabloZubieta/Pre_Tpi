@@ -21,9 +21,9 @@ class UserController extends Controller
     {
         $formFields = $request->validate([
             'username'=>'required',
-            'email'=>['required','email'],
+            'email'=>'required|email',
             'car_seat'=>'required',
-            'password'=>'required'|'confirmed'|'min:8'
+            'password'=>'required|confirmed|min:8'
         ]);
 
         // acronyme exist?
@@ -34,6 +34,9 @@ class UserController extends Controller
                 $user->password = bcrypt($formFields['password']);
                 $user->car_seat = $formFields['car_seat'];
                 $user->save();
+                auth()->attempt($formFields);
+                $request->session()->regenerate();
+                return redirect('/');
             }
             else{
                 return back()->withErrors(['username'=>'utilisateur déja enregistrer'])->onlyInput('username');
@@ -52,11 +55,12 @@ class UserController extends Controller
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+        return redirect('/');
     }
     public function log(Request $request)
     {
         $formFields = $request ->validate([
-            'username'=>['required'],
+            'username'=>'required',
             'password'=>'required'
         ]);
         $user = User::firstWhere('username', $request->username);
