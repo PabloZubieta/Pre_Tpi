@@ -19,21 +19,28 @@ class UserController extends Controller
     }
     public function activate(Request $request)
     {
-        $formFields = $request ->validate([
+        $formFields = $request->validate([
+            'username'=>'required',
             'email'=>['required','email'],
-            'car_seat'=>['required'],
+            'car_seat'=>'required',
             'password'=>'required'|'confirmed'|'min:8'
         ]);
 
         // acronyme exist?
-        $user = User::firstWhere('acronym', $request->username);
+        $user = User::firstWhere('username', $request->username);
         if ($user) {
-            $user->active = true;
-            $user->password = bcrypt($formFields['password']);
-            $user->save();
+            if(!$user->active){
+                $user->active = true;
+                $user->password = bcrypt($formFields['password']);
+                $user->car_seat = $formFields['car_seat'];
+                $user->save();
+            }
+            else{
+                return back()->withErrors(['username'=>'utilisateur déja enregistrer'])->onlyInput('username');
+            }
 
         } else {
-            return back()->withErrors(['email'=>'erreur de dans l\'un des champs'])->onlyInput('email');
+            return back()->withErrors(['username'=>'l\'utilisateur n\'exite pas'])->onlyInput('username');
         }
 
 
@@ -52,12 +59,17 @@ class UserController extends Controller
             'username'=>['required'],
             'password'=>'required'
         ]);
+        $user = User::firstWhere('username', $request->username);
+        if ($user->active){
+            if(auth()->attempt($formFields)){
+                $request->session()->regenerate();
+                return redirect('/');
 
-        if(auth()->attempt($formFields)){
-            $request->session()->regenerate();
-            return redirect('/');
+            }
 
         }
+
+
         return back()->withErrors(['email'=>'erreur de dans l\'un des champs'])->onlyInput('email');
 
 
