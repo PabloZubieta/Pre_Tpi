@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('carpooling', function (Blueprint $table) {
             $table->id();
             $table->dateTime('carpooling_time');
-            $table->tinyInteger('carpooling_3/4');
-            $table->tinyInteger('driver_validate');
+            $table->boolean('carpooling_3/4');
+            $table->boolean('driver_validate');
             //$table->foreign('place_id')->references('id')->on('places');
             //$table->foreign('driver_id')->references('id')->on('users');
             $table->timestamps();

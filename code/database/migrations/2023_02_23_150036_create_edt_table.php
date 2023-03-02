@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('edt', function (Blueprint $table) {
             $table->id();
-            $table->mediumText('edt_schedule');
+            $table->mediumText('EDT_schedule');
             $table->timestamps();
         });
     }

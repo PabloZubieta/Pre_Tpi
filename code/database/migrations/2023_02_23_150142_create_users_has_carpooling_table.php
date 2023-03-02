@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('users_has_carpooling', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('user_confirm');
+            $table->boolean('user_confirm');
             //$table->foreign('users_id')->references('id')->on('users');
             //$table->foreign('carpooling_id')->references('id')->on('carpooling');
             $table->timestamps();

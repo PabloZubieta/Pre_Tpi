@@ -33,9 +33,10 @@ class UserController extends Controller
                 $user->active = true;
                 $user->password = bcrypt($formFields['password']);
                 $user->car_seat = $formFields['car_seat'];
+                $user->email = $formFields['email'];
                 $user->save();
-                auth()->attempt($formFields);
-                $request->session()->regenerate();
+                auth()->login($user);
+                $request->session()->regenerateToken();
                 return redirect('/');
             }
             else{
@@ -74,7 +75,7 @@ class UserController extends Controller
         }
 
 
-        return back()->withErrors(['email'=>'erreur de dans l\'un des champs'])->onlyInput('email');
+        return back()->withErrors(['username'=>'erreur de dans l\'un des champs'])->onlyInput('username');
 
 
     }

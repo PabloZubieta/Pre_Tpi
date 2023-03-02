@@ -26,7 +26,10 @@
         <li class="nav-item"><a class="nav-link" href="#">My Carpooling</a></li>
         <li class="nav-item"><a class="nav-link" href="#">My Schedule</a></li>
         <li class="nav-item"><a class="nav-link" href="#">My Profile</a></li>
-        <li class="nav-item"><><a class="nav-link" href="#">Logout</a></li>
+            <li class="nav-item"><form method="post" action="/logout">
+                    @csrf
+                    <button type="submit">Logout</button>
+                </form></li>
         @else
         <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
         <li class="nav-item"><a class="nav-link" href="/signin">Sign in</a></li>
@@ -35,7 +38,7 @@
 </nav>
 @yield('content')
 <footer>
-    <p>a jamais dans nos coeur</p>
+    <p>Merci Ecolopnv</p>
 </footer>
 </body>
 </html>

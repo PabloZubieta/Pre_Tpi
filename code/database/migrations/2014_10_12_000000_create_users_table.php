@@ -14,16 +14,18 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
+
             $table->id();
-            $table->string('username')->unique();
-            $table->string('last_name')->nullable();
-            $table->string('email')->nullable();
-            $table->string('password')->nullable();
+            $table->string('username',3)->unique();
+            $table->string('last_name',50)->nullable();
+            $table->string('email',200)->nullable();
+            $table->string('password',45)->nullable();
             $table->rememberToken();
             $table->timestamps();
-            $table->tinyInteger('active')->startingValue(0);
-            $table->Integer('car_seat')->nullable();
-            //$table->foreign('place_id')->references('id')->on('places');
+            $table->boolean('active')->default(0);
+            $table->tinyInteger('car_seat')->nullable();
+            $table->engine ='innoDB';
+            //$table->foreignId('place_id')->references('id')->on('places');
         });
     }
 
