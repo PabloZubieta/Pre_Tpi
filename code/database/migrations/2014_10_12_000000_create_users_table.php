@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('username',3)->unique();
             $table->string('last_name',50)->nullable();
             $table->string('email',200)->nullable();
-            $table->string('password',45)->nullable();
+            $table->string('password',64)->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->boolean('active')->default(0);

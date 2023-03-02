@@ -29,6 +29,17 @@
                 <p>{{$message}}</p>
                 @enderror
             </div>
+
+             <div class="mb-3">
+                <label for="place">lieux d'habitation:</label>
+                <input type="text"  name="place" placeholder="lieux d'habitation"
+                       value="{{old('place')}}">
+                @error('place')
+                <p>{{$message}}</p>
+                @enderror
+
+            </div>
+
             <div class="mb-3">
                 <label for="car_seat">Place de voiture:</label>
                 <input type="number"  name="car_seat" placeholder="Place de voiture"

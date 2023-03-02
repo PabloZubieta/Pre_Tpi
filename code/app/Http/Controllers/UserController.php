@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\PlaceController;
 
 class UserController extends Controller
 {
@@ -22,6 +23,7 @@ class UserController extends Controller
         $formFields = $request->validate([
             'username'=>'required',
             'email'=>'required|email',
+            'place'=> 'required',
             'car_seat'=>'required',
             'password'=>'required|confirmed|min:8'
         ]);
@@ -34,9 +36,10 @@ class UserController extends Controller
                 $user->password = bcrypt($formFields['password']);
                 $user->car_seat = $formFields['car_seat'];
                 $user->email = $formFields['email'];
+                //$user ->place_id =PlaceController::check($formFields['place']);
                 $user->save();
                 auth()->login($user);
-                $request->session()->regenerateToken();
+                $request->session()->regenerate();
                 return redirect('/');
             }
             else{
