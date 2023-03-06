@@ -6,13 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PlaceController;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
     //
     public function signin()
     {
-        return view('users.signin');
+        $places = DB::table('places')->get();
+
+
+        return view('users.signin',['places'=>$places]);
     }
     public  function login()
     {
@@ -36,7 +40,7 @@ class UserController extends Controller
                 $user->password = bcrypt($formFields['password']);
                 $user->car_seat = $formFields['car_seat'];
                 $user->email = $formFields['email'];
-                //$user ->place_id =PlaceController::check($formFields['place']);
+                $user ->place_id =$formFields['place'];
                 $user->save();
                 auth()->login($user);
                 $request->session()->regenerate();

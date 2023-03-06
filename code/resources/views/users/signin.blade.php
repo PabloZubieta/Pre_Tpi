@@ -32,8 +32,19 @@
 
              <div class="mb-3">
                 <label for="place">lieux d'habitation:</label>
-                <input type="text"  name="place" placeholder="lieux d'habitation"
-                       value="{{old('place')}}">
+                <select id="place" name="place" >
+                    @foreach($places as $placed)
+                        <option value="{{$placed->id}}">{{$placed->name}}</option>
+
+
+                    @endforeach
+
+                </select>
+
+
+
+
+
                 @error('place')
                 <p>{{$message}}</p>
                 @enderror
