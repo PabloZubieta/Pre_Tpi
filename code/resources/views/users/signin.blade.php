@@ -34,7 +34,9 @@
                 <label for="place">lieux d'habitation:</label>
                 <select id="place" name="place" >
                     @foreach($places as $placed)
-                        <option value="{{$placed->id}}">{{$placed->name}}</option>
+                        <option value="{{$placed->id}}"
+
+                        >{{$placed->name}}</option>
 
 
                     @endforeach
