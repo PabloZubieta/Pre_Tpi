@@ -5,13 +5,20 @@
  * @author Created by Pablo-Fernando.ZUBIE
  * @version 08.03.2023
  */
+$week = date('W');
+
+echo $week;
 ?>
 
 
 @extends('layout')
 
 @section('content')
+
     <div>
+        <?php
+        echo $week;
+        ?>
         <table >
             <tr>
                 <td ></td>
@@ -44,10 +51,11 @@
     @foreach($schedules as $schedule)
 
     for ($k =0 ;$k <={{$schedule->duree}}- 1; $k++) {
+
         const time = {{$schedule->heure}} + $k;
         const element = document.getElementById( time+"_{{$schedule->jour}}");
         element.innerHTML = "{{$schedule->codemat}} {{$schedule->classe}}";
-        element.style = "background-color: cyan";
+        element.style = "background-color: pink";
     }
 
     @endforeach
