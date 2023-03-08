@@ -43,10 +43,10 @@
 <script>
     @foreach($schedules as $schedule)
 
-    for ($k =0 ;$k <={{$sched->duree}}- 1; $k++) {
-        const time = {{$sched->heure}} + $k;
-        const element = document.getElementById( time+"_{{$sched->jour}}");
-        element.innerHTML = "{{$sched->codemat}} {{$sched->classe}}";
+    for ($k =0 ;$k <={{$schedule->duree}}- 1; $k++) {
+        const time = {{$schedule->heure}} + $k;
+        const element = document.getElementById( time+"_{{$schedule->jour}}");
+        element.innerHTML = "{{$schedule->codemat}} {{$schedule->classe}}";
         element.style = "background-color: cyan";
     }
 
