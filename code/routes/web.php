@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use \App\Http\Controllers\ScheduleController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,6 +17,14 @@ use App\Http\Controllers\UserController;
 Route::get('/', function () {
     return view('home');
 });
+
+Route::get('/carpooling',function () {
+    return view('home');
+});
+
+Route::get('/profile', [UserController::class, 'profile'] );
+
+Route::get('/schedule', [ScheduleController::class, 'display']);
 
 Route::get('/login', [UserController::class, 'login']);
 

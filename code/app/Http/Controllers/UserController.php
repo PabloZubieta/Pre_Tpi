@@ -47,7 +47,7 @@ class UserController extends Controller
                 return redirect('/');
             }
             else{
-                return back()->withErrors(['username'=>'utilisateur déja enregistrer'])->onlyInput('username');
+                return back()->withErrors(['username'=>'l\'utilisateur est déja enregistrer'])->onlyInput('username');
             }
 
         } else {
@@ -86,5 +86,13 @@ class UserController extends Controller
 
 
     }
+    public function profile(){
+        $places = DB::table('places')->get();
+
+
+        return view('users.profile',['places'=>$places]);
+
+    }
+
 }
 

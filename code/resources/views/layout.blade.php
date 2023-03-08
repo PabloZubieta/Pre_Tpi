@@ -23,9 +23,9 @@
 
         @auth
             <li class="nav-item"><h4>bienvenue {{auth()->user()->last_name}}</h4></li>
-        <li class="nav-item"><a class="nav-link" href="#">My Carpooling</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">My Schedule</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">My Profile</a></li>
+        <li class="nav-item"><a class="nav-link" href="/carpooling">My Carpooling</a></li>
+        <li class="nav-item"><a class="nav-link" href="/schedule">My Schedule</a></li>
+        <li class="nav-item"><a class="nav-link" href="/profile">My Profile</a></li>
             <li class="nav-item"><form method="post" action="/logout">
                     @csrf
                     <button type="submit">Logout</button>

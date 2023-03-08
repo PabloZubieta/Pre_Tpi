@@ -15,14 +15,14 @@ return new class extends Migration
     {
         Schema::create('edtread', function (Blueprint $table) {
             $table->id();
-            $table->string('duree',5)->nullable();
+            $table->tinyInteger('duree',4)->nullable();
             $table->string('frequence',3)->nullable();
             $table->string('professeur',50)->nullable();
             $table->string('abrev',3)->nullable();
             $table->string('codemat',15)->nullable();
             $table->string('classe',350)->nullable();
-            $table->string('jour',10)->nullable();
-            $table->string('heure',5)->nullable();
+            $table->tinyInteger('jour',3)->nullable();
+            $table->tinyInteger('heure',4)->nullable();
             $table->string('semaines',50)->nullable();
 
         });
