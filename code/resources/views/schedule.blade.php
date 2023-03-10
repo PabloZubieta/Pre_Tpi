@@ -5,9 +5,9 @@
  * @author Created by Pablo-Fernando.ZUBIE
  * @version 08.03.2023
  */
-$week = date('W');
+$week =  (int)date('W') +19 ;
 
-echo $week;
+
 ?>
 
 
@@ -16,9 +16,6 @@ echo $week;
 @section('content')
 
     <div>
-        <?php
-        echo $week;
-        ?>
         <table >
             <tr>
                 <td ></td>
@@ -50,6 +47,9 @@ echo $week;
 <script>
     @foreach($schedules as $schedule)
 
+
+
+
     for ($k =0 ;$k <={{$schedule->duree}}- 1; $k++) {
 
         const time = {{$schedule->heure}} + $k;
@@ -57,7 +57,6 @@ echo $week;
         element.innerHTML = "{{$schedule->codemat}} {{$schedule->classe}}";
         element.style = "background-color: pink";
     }
-
     @endforeach
 </script>
 @endsection
