@@ -8,8 +8,8 @@
 $week = (int)date('W') +19;
 
 ?>
-
 @dd($schedules)
+
 @extends('layout')
 
 @section('content')
@@ -47,7 +47,7 @@ $week = (int)date('W') +19;
     @foreach($schedules as $schedule)
 
     for ($k =0 ;$k <={{$schedule->duree}}- 1; $k++) {
-            <?php if( in_array( $week , $schedule->semaine))
+            <?php if( in_array( $week , $schedule->semaines))
         { ?>
             const time = {{$schedule->heure}} + $k;
             const element = document.getElementById( time+"_{{$schedule->jour}}");

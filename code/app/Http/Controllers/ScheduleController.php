@@ -9,6 +9,7 @@ class ScheduleController extends Controller
 {
     //
 
+
     private function week_convert($string) :array
     {
         $res = [];
@@ -46,43 +47,70 @@ class ScheduleController extends Controller
 
         return  $res;
     }
+    public function timefactory($user)
+    {
+        $weeknumber = (int)date('W') +19;
+        $weeks = [];
+
+        $schedules = Schedule::where('abrev', $user)->get();
+        foreach ($schedules as $schedule){
+            $schedule->semaines = $this->week_convert($schedule->semaines);
+            foreach ( $schedule->semaines as $week)
+            {
+
+                if (!in_array(["week"=>$week], $weeks)){
+                    array_push($weeks,array("week"=>$week));
+                }
+
+            }
+
+
+        }
+        foreach ($schedules as $schedule){
+            foreach ($weeks as $week)
+            {
+
+                if(in_array($week["week"],$schedule->semaines ))
+                {
+
+                    //$before = !in_array(["day"=>$schedule->jour], $week);
+                    if(!in_array(["day"=>$schedule->jour], $week)){
+                        array_push($week, array("day"=>$schedule->jour));
+
+                    }
+                    //$between = !in_array(["day"=>$schedule->jour], $week);
+                    array_push($week[0], array($schedule->heure, $schedule->heure+ $schedule->duree));
+                    //$after = !in_array(["day"=>$schedule->jour], $week);
+                    return [$week, $weeks, $schedules];
+
+                }
+            }
+        }
+
+
+
+
+
+        return $weeks;
+
+
+    }
     public function display(){
 
 
         $schedules = Schedule::where('abrev', auth()->user()->username)->get();
         foreach ($schedules as $schedule){
-            $schedule->semaine = $this->week_convert($schedule->semaine);
+            $schedule->semaines = $this->week_convert($schedule->semaines);
+
         }
+        $schedules = $this->timefactory(auth()->user()->username);
 
 
         return view('schedule',['schedules'=>$schedules]);
 
 
     }
-    public function timefactory($user)
-    {
-        $week = (int)date('W') +19;
-        $days = [];
 
-        $schedules = Schedule::where('abrev', $user)->get();
-        foreach ($schedules as $schedule){
-            $schedule->semaine = $this->week_convert($schedule->semaine);
-            if( !in_array( $days , $schedule->day)){
-                array_push($days , $schedule->day);
-
-            }
-        }
-        foreach ($days as $day){
-
-        }
-
-
-
-
-        return ;
-
-
-    }
 
 
 
