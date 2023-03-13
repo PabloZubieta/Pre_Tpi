@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PlaceController;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\ScheduleController;
 
 class UserController extends Controller
 {
@@ -44,6 +45,7 @@ class UserController extends Controller
                 $user->save();
                 auth()->login($user);
                 $request->session()->regenerate();
+                (new ScheduleController)->timefactory($request->username);
                 return redirect('/');
             }
             else{

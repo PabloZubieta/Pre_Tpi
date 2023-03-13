@@ -5,12 +5,11 @@
  * @author Created by Pablo-Fernando.ZUBIE
  * @version 08.03.2023
  */
-$week =  (int)date('W') +19 ;
-
+$week = (int)date('W') +19;
 
 ?>
 
-
+@dd($schedules)
 @extends('layout')
 
 @section('content')
@@ -47,16 +46,20 @@ $week =  (int)date('W') +19 ;
 <script>
     @foreach($schedules as $schedule)
 
-
-
-
     for ($k =0 ;$k <={{$schedule->duree}}- 1; $k++) {
+            <?php if( in_array( $week , $schedule->semaine))
+        { ?>
+            const time = {{$schedule->heure}} + $k;
+            const element = document.getElementById( time+"_{{$schedule->jour}}");
+            element.innerHTML = "{{$schedule->codemat}} {{$schedule->classe}}";
+            element.style = "background-color: pink";
+            <?php
+        } ?>
 
-        const time = {{$schedule->heure}} + $k;
-        const element = document.getElementById( time+"_{{$schedule->jour}}");
-        element.innerHTML = "{{$schedule->codemat}} {{$schedule->classe}}";
-        element.style = "background-color: pink";
+
+
     }
+
     @endforeach
 </script>
 @endsection
