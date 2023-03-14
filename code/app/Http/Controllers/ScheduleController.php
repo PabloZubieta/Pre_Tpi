@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Schedule;
+use App\Http\Controllers\Users_does_edtController;
 
 class ScheduleController extends Controller
 {
@@ -47,12 +48,11 @@ class ScheduleController extends Controller
 
         return  $res;
     }
-    public function timefactory($user)
+    public function timefactory($user,)
     {
-        $weeknumber = (int)date('W') +19;
-        $weeks = [];
 
-        $schedules = Schedule::where('abrev', $user)->get();
+        $weeks = [];
+        $schedules = Schedule::where('abrev', $user)->orderby('jour')->orderby('heure')->get();
         foreach ($schedules as $schedule){
             $schedule->semaines = $this->week_convert($schedule->semaines);
             foreach ( $schedule->semaines as $week)
@@ -81,8 +81,7 @@ class ScheduleController extends Controller
         $weeks3 = [];
         foreach ($weeks2 as $week){
             $weekid= $week["week"];
-            $week3 = ["week"=>$week["week"]];
-
+            $week3 = ["week"=>$week["week"]-19];
             foreach ($week as $day){
 
                 if(is_array($day)){
@@ -95,11 +94,10 @@ class ScheduleController extends Controller
 
                         }
                     }
-                    //sort($day);
+
                     array_push($week3, $day);
 
                 }
-
 
             }
             array_push($weeks3, $week3);
@@ -111,7 +109,7 @@ class ScheduleController extends Controller
 
 
 
-        return $weeks3;
+        return [$weeks3 ];
 
     }
     public function display(){
@@ -122,7 +120,7 @@ class ScheduleController extends Controller
             $schedule->semaines = $this->week_convert($schedule->semaines);
 
         }
-        $schedules = $this->timefactory(auth()->user()->username);
+        $schedules = $this->timefactory(auth()->user()->username,auth()->user()->id);
 
 
         return view('schedule',['schedules'=>$schedules]);
