@@ -57,42 +57,61 @@ class ScheduleController extends Controller
             $schedule->semaines = $this->week_convert($schedule->semaines);
             foreach ( $schedule->semaines as $week)
             {
-
                 if (!in_array(["week"=>$week], $weeks)){
                     array_push($weeks,array("week"=>$week));
                 }
-
             }
-
-
         }
-        foreach ($schedules as $schedule){
-            foreach ($weeks as $week)
+        $weeks2 = [];
+        foreach ($weeks as $week){
+            $weekid= $week["week"];
+            foreach ($schedules as $schedule)
             {
-
-                if(in_array($week["week"],$schedule->semaines ))
+                if(in_array($weekid,$schedule->semaines ))
                 {
-
-                    //$before = !in_array(["day"=>$schedule->jour], $week);
                     if(!in_array(["day"=>$schedule->jour], $week)){
                         array_push($week, array("day"=>$schedule->jour));
-
                     }
-                    //$between = !in_array(["day"=>$schedule->jour], $week);
-                    array_push($week[0], array($schedule->heure, $schedule->heure+ $schedule->duree));
-                    //$after = !in_array(["day"=>$schedule->jour], $week);
-                    return [$week, $weeks, $schedules];
 
                 }
             }
+            array_push($weeks2, $week);
+        }
+
+        $weeks3 = [];
+        foreach ($weeks2 as $week){
+            $weekid= $week["week"];
+            $week3 = ["week"=>$week["week"]];
+
+            foreach ($week as $day){
+
+                if(is_array($day)){
+                    $dayid = $day["day"];
+                    foreach ($schedules as $schedule)
+                    {
+                        if(in_array($weekid,$schedule->semaines ) and ($dayid == $schedule->jour))
+                        {
+                            array_push($day, $schedule->heure, $schedule->heure+ $schedule->duree);
+
+                        }
+                    }
+                    //sort($day);
+                    array_push($week3, $day);
+
+                }
+
+
+            }
+            array_push($weeks3, $week3);
         }
 
 
 
 
 
-        return $weeks;
 
+
+        return $weeks3;
 
     }
     public function display(){
