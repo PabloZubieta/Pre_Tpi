@@ -45,7 +45,7 @@ class UserController extends Controller
                 $user->save();
                 auth()->login($user);
                 $request->session()->regenerate();
-                //(new ScheduleController)->timefactory($request->username);
+                (new ScheduleController)->timefactory($request->username,auth()->user()->id);
                 return redirect('/');
             }
             else{

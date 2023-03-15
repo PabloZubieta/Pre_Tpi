@@ -48,7 +48,7 @@ class ScheduleController extends Controller
 
         return  $res;
     }
-    public function timefactory($user,)
+    public function timefactory($user,$id)
     {
 
         $weeks = [];
@@ -104,12 +104,8 @@ class ScheduleController extends Controller
         }
 
 
+        (new Users_does_edtController)->insert_hour($weeks3,$id);
 
-
-
-
-
-        return [$weeks3 ];
 
     }
     public function display(){
@@ -120,7 +116,7 @@ class ScheduleController extends Controller
             $schedule->semaines = $this->week_convert($schedule->semaines);
 
         }
-        $schedules = $this->timefactory(auth()->user()->username,auth()->user()->id);
+        //$this->timefactory(auth()->user()->username,auth()->user()->id);
 
 
         return view('schedule',['schedules'=>$schedules]);
