@@ -89,10 +89,17 @@ class UserController extends Controller
 
     }
     public function profile(){
+
         $places = DB::table('places')->get();
+        $user_place = "";
+        foreach ($places as $place){
+            if( $place->id==auth()->user()->place_id){
+                $user_place = $place->name;
+            }
+        }
 
 
-        return view('users.profile',['places'=>$places]);
+        return view('users.profile',['places'=>$places, 'user_place'=>$user_place]);
 
     }
 
