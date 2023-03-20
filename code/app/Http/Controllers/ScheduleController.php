@@ -119,7 +119,7 @@ class ScheduleController extends Controller
         }
 
         //$this->timefactory(auth()->user()->username,auth()->user()->id);
-        $schedules = (new CarpoolingController)->create();
+        //$schedules = (new CarpoolingController)->create();
 
         return view('schedule',['schedules'=>$schedules]);
 
