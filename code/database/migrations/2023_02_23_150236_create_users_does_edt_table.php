@@ -15,8 +15,7 @@ return new class extends Migration
     {
         Schema::create('users_does_edt', function (Blueprint $table) {
             $table->id();
-            //$table->foreign('edt_id')->references('id')->on('edt');
-            //$table->foreign('users_id')->references('id')->on('users');
+
             $table->dateTime('starting_hour');
             $table->dateTime('finnishing_hour');
             $table->timestamps();

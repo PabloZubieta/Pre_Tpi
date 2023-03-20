@@ -20,10 +20,6 @@ class PlaceController extends Controller
            $place = Place::firstWhere('name', $request);
            return $place->id;
         }
-
-
-
-
     }
 
 

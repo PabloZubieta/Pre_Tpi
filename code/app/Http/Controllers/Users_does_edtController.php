@@ -102,7 +102,7 @@ class Users_does_edtController extends Controller
 
 
     }
-    public function insert_hour($weeks,$user_id)
+    public function insert_hour($weeks,$user_id,$place_id)
     {
         $times = $this->array_to_date($weeks);
         foreach ($times as $time)
@@ -111,7 +111,7 @@ class Users_does_edtController extends Controller
                 'starting_hour' =>$time[0],
                 'finnishing_hour'=>$time[1],
                 'users_id'=>$user_id ,
-                'edt_id' => 1
+                'edt_id' => $place_id
 
             ];
             Users_does_edt::create($entry);

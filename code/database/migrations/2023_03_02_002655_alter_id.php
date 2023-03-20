@@ -25,7 +25,7 @@ return new class extends Migration
         });
         Schema::table('users_does_edt', function (Blueprint $table) {
             $table->foreignid('users_id')->references('id')->on('users');
-            $table->foreignid('edt_id')->references('id')->on('edt');
+
         });
         Schema::table('carpooling', function (Blueprint $table) {
             $table->foreignId('place_id')->references('id')->on('places');

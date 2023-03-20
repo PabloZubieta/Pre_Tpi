@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Schedule;
 use App\Http\Controllers\Users_does_edtController;
 
+
 class ScheduleController extends Controller
 {
     //
@@ -48,7 +49,7 @@ class ScheduleController extends Controller
 
         return  $res;
     }
-    public function timefactory($user,$id)
+    public function timefactory($user,$id,$place_id)
     {
 
         $weeks = [];
@@ -104,7 +105,7 @@ class ScheduleController extends Controller
         }
 
 
-        (new Users_does_edtController)->insert_hour($weeks3,$id);
+        (new Users_does_edtController)->insert_hour($weeks3,$id,$place_id);
 
 
     }
@@ -116,8 +117,9 @@ class ScheduleController extends Controller
             $schedule->semaines = $this->week_convert($schedule->semaines);
 
         }
-        //$this->timefactory(auth()->user()->username,auth()->user()->id);
 
+        //$this->timefactory(auth()->user()->username,auth()->user()->id);
+        $schedules = (new CarpoolingController)->create();
 
         return view('schedule',['schedules'=>$schedules]);
 
