@@ -112,13 +112,13 @@
     <script>
 function hide_show(elem)
 {
-    if((document.getElementById(elem).style.display) =="none")
+    if((document.getElementById(elem).style.display) ==="none")
     {
         document.getElementById(elem).style.display ="block";
-        document.getElementById("submit").style.display ="block"
+        document.getElementById("submit").style.display ="block";
     }
     else {
-        //document.getElementById(elem).style.display ="none";
+        document.getElementById(elem).style.display ="none";
     }
 
 }
