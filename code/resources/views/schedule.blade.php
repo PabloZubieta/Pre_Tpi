@@ -61,6 +61,12 @@ function switch_time($time){
             return "error";
     }
 }
+$time = 12;
+foreach ($schedules as $schedule){
+    if($schedule->heure+$schedule->duree>12){
+        $time=$schedule->heure+$schedule->duree;
+    }
+}
 
 ?>
 
@@ -83,7 +89,7 @@ function switch_time($time){
             </thead>
             <tbody>
 
-            @for($i =1; $i <=16 ;$i++)
+            @for($i =1; $i <=$time ;$i++)
             <tr id="{{$i}}">
                 <td ><?php
                         echo switch_time($i);

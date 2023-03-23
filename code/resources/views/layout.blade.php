@@ -21,7 +21,16 @@
 <h1 class="display-1" style=" text-align: center">Ecolopnv</h1>
 
     @auth
-        <div class="right-align" style="text-align:right; margin-right: 5px"><h5>bienvenue {{auth()->user()->last_name}}</h5></div>
+        <div class="right-align" style="text-align:right; margin-right: 5px"><h5>Bienvenue
+                @if(auth()->user()->username =='PHI')
+                    à vous M.
+                @endif
+               {{auth()->user()->last_name}}
+            @if(auth()->user()->username =='PHI')
+                Grand Magnitou supreme
+            @endif
+
+            </h5></div>
     @endauth
 </header>
 <nav>
