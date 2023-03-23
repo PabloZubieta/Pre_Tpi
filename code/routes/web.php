@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\CarpoolingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use \App\Http\Controllers\ScheduleController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,9 +20,7 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/carpooling',function () {
-    return view('carpooling');
-});
+Route::get('/carpooling',[CarpoolingController::class, 'display'] );
 
 Route::get('/profile', [UserController::class, 'profile'] );
 

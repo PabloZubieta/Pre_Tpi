@@ -7,6 +7,7 @@ use App\Models\Carpooling;
 use App\Models\Users_has_carpooling;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use mysql_xdevapi\Collection;
 
 
 class CarpoolingController extends Controller
@@ -111,12 +112,44 @@ class CarpoolingController extends Controller
 
 
     public function display(){
-        $lastdriven=Carpooling::where('users_id','=',auth()->user()->id)->orderbydesc('id')->limit(1)->get();
+        //$this->create();
+
+        $lastdriven=Carpooling::where('driver_id','=',auth()->user()->id)->where('carpooling_3/4','=',1)->orderbydesc('id')->limit(1)->get();
+        $lastdrivenUser= collect([]);
+        if (!empty($lastdriven[0])){
+            $lastdrivenUser  = Users_has_carpooling::where('carpooling_id','=',$lastdriven[0]->id)->get();
+        }
+
+        $lasttakenid =Users_has_carpooling::where('users_id','=',auth()->user()->id)->orderbydesc('id')->select('carpooling_id')->limit(1)->get();
+
+
+        $lasttaken= collect([]);
+        $lasttakenUser= collect([]);
+        if(!empty($lasttakenid[0])){
+
+            $lasttaken = Carpooling::where('id','=',$lasttakenid[0]->carpooling_id)->get();
+            $lasttakenUser  = Users_has_carpooling::where('carpooling_id','=',$lasttaken[0]->id)->get();
+
+        }
+        $nextcarpooling=Carpooling::where('driver_id','=',auth()->user()->id)->where('carpooling_3/4','=',null)->orderbydesc('id')->limit(1)->get();
+        $nextcarpoolingid =Users_has_carpooling::where('users_id','=',auth()->user()->id)->where('carpooling_3/4','=',null)->orderbydesc('id')->select('carpooling_id')->limit(1)->get();
+        $lastdriven=Carpooling::where('driver_id','=',auth()->user()->id)->where('carpooling_3/4','=',null)->orderbydesc('id')->limit(1)->get();
+
+
+        return view('carpooling',['lastdriven'=>[$lastdriven,$lastdrivenUser], 'lasttaken'=>[$lasttaken,$lasttakenUser], 'nextcarpooling'=>$lasttaken]);
 
 
 
 
-        //return view('carpooling',['places'=>$places, 'user_place'=>$user_place]);
+
+
+
+
+
+
+
+
+
     }
 
     public function validate_carpool(){

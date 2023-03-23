@@ -7,6 +7,8 @@
  */
 $title ="Ecolopnv-covoit";
 ?>
+@dd($lasttaken)
+
 @extends('layout')
 
 @section('content')
