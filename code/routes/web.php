@@ -26,6 +26,8 @@ Route::get('/profile', [UserController::class, 'profile'] );
 
 Route::get('/schedule', [ScheduleController::class, 'display']);
 
+Route::put('/actualise', [UserController::class, 'actualise']);
+
 Route::get('/login', [UserController::class, 'login']);
 
 Route::get('/signin', [UserController::class, 'signin']);

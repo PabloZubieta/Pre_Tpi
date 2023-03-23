@@ -38,10 +38,7 @@ class CarpoolingController extends Controller
 
         }
 
-
-
         $carpoolings= [];
-
 
         foreach ($placecars as $place ){
             foreach ($place as $placecar){
@@ -110,8 +107,19 @@ class CarpoolingController extends Controller
 
         }
 
+    }
 
 
+    public function display(){
+        $lastdriven=Carpooling::where('users_id','=',auth()->user()->id)->orderbydesc('id')->limit(1)->get();
+
+
+
+
+        //return view('carpooling',['places'=>$places, 'user_place'=>$user_place]);
+    }
+
+    public function validate_carpool(){
 
 
 

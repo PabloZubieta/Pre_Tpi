@@ -6,6 +6,7 @@
  * @version 08.03.2023
  */
 $week = (int)date('W') +19;
+$title ="Ecolopnv-horaire";
 
 function switch_time($time){
     switch ($time){

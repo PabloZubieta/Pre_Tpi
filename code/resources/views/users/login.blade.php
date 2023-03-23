@@ -5,16 +5,17 @@
  * @author Created by Blooooo
  * @version 24.02.2023
  */
+$title ="Ecolopnv-connection";
 ?>
 @extends('layout')
 
 @section('content')
-    <div>
+    <div class="container mt-3 col-lg-6 col-md-8 col-sm-12">
         <form method="POST" action="/log">
             @csrf <!-- juste de la securité  https://laravel.com/docs/5.8/csrf -->
             <div class="mb-3 mt-3">
-                <label for="username">Acronyme</label>
-                <input type="text"  name="username" placeholder="Acronyme">
+                <label for="username">Acronyme:</label>
+                <input type="text" class="form-control" name="username" placeholder="Acronyme">
                 @error('username')
                 <p>{{$message}}</p>
                 @enderror
@@ -23,15 +24,17 @@
 
             <div class="mb-3">
                 <label for="password">Mot de passe:</label>
-                <input type="password"  name="password" placeholder="Mot de passe">
+                <input type="password" class="form-control" name="password" placeholder="Mot de passe">
                 @error('password')
                 <p>{{$message}}</p>
                 @enderror
                 </div>
+            <div class="mb-3 row">
 
-
-            <button type="submit" name="sign" class="btn btn-primary">login</button>
-            <button type="reset" class="btn btn-primary" >Annuler </button>
+                <button type="submit" name="log" class="btn btn-primary col-5" >login</button>
+                <div class="col-2"></div>
+                <button type="reset" class="btn btn-primary col-5" >Annuler </button>
+            </div>
 
 
         </form>

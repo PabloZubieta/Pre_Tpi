@@ -103,6 +103,30 @@ class UserController extends Controller
         return view('users.profile',['places'=>$places, 'user_place'=>$user_place]);
 
     }
+    public function actualise(Request $request){
+        $formFields = $request->validate([
+            'place'=> 'required',
+            'car_seat'=>'required',
+            'password'=>'confirmed|min:8'
+        ]);
+
+
+        $user = User::firstWhere('username', auth()->user()->username);
+
+        if ($formFields['password']!=null){
+            $user->password = bcrypt($formFields['password']);
+        }
+        $user->car_seat = $formFields['car_seat'];
+        $user ->place_id =$formFields['place'];
+        $user->save();
+
+        return back();
+    }
+
+
+
+
+
 
 }
 

@@ -12,7 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <title></title>
+    <title>{{$title}}</title>
 </head>
 <body>
 <header>
@@ -41,9 +41,9 @@
         <li class="nav-item"><a class="nav-link" href="/carpooling">My Carpooling</a></li>
         <li class="nav-item"><a class="nav-link" href="/schedule">My Schedule</a></li>
         <li class="nav-item"><a class="nav-link" href="/profile">My Profile</a></li>
-            <li class="nav-item"><form method="post" action="/logout">
+            <li class="nav-item" ><form method="post" action="/logout" style="border-color: white;background-color: white; box-shadow:0 0">
                     @csrf
-                    <button type="submit">Logout</button>
+                    <button class="nav-link" type="submit"  style="border-color: white;background-color: white; box-shadow:0 0" >Logout</button>
                 </form></li>
         @else
         <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>

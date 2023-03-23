@@ -5,6 +5,7 @@
  * @author Created by Blooooo
  * @version 23.03.2023
  */
+$title ="Ecolopnv-covoit";
 ?>
 @extends('layout')
 
