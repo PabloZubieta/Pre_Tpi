@@ -7,30 +7,86 @@
  */
 $week = (int)date('W') +19;
 
+function switch_time($time){
+    switch ($time){
+        case 1:
+            return "08h00 <br>
+            08h45";
+        case 2:
+            return "08h50 <br>
+            09h35";
+        case 3:
+            return "09h50 <br>
+            10h35";
+        case 4:
+            return "10h40 <br>
+            11h25";
+        case 5:
+            return "11h30 <br>
+            12h45";
+        case 6:
+            return "12h20 <br>
+            13h05";
+        case 7:
+            return "13h30 <br>
+            14h15";
+        case 8:
+            return "14h20 <br>
+            15h05";
+        case 9:
+            return "15h20 <br>
+            16h05";
+        case 10:
+            return "16h10 <br>
+            16h55";
+        case 11:
+            return "17h00 <br>
+            17h45";
+        case 12:
+            return "17h50 <br>
+            18h35";
+        case 13:
+            return "18h40 <br>
+            19h25";
+        case 14:
+            return "19h30 <br>
+            20h15";
+        case 15:
+            return "20h20 <br>
+            21h05";
+        case 16:
+            return "21h15 <br>
+            22h00";
+        default:
+            return "error";
+    }
+}
+
 ?>
 
 @extends('layout')
 
 @section('content')
 
-    <div>
-        <table >
+    <div class="container col-lg-6 col-md-8 col-sm-12">
+        <table class="table-striped">
+            <thead>
             <tr>
-                <td ></td>
-                <td>Lundi</td>
-                <td>Mardi</td>
-                <td>Mercredi</td>
-                <td>Jeudi</td>
-                <td>Vendredi</td>
-                <td>Samedi</td>
+                <th ></th>
+                <th>Lundi</th>
+                <th>Mardi</th>
+                <th>Mercredi</th>
+                <th>Jeudi</th>
+                <th>Vendredi</th>
+                <th>Samedi</th>
             </tr>
+            </thead>
+            <tbody>
 
-            @for($i =1; $i <=12 ;$i++)
+            @for($i =1; $i <=16 ;$i++)
             <tr id="{{$i}}">
                 <td ><?php
-                        $heure = 8 +(int)(($i-1)*50/60);
-                        $minutes = ($i-1)*50%60;
-                        echo $heure.'h'.$minutes;
+                        echo switch_time($i);
                            ?></td>
                 @for($j =0; $j <=5 ;$j++)
                     <td id="{{$i.'_'.$j}}" style="border-color: blue"></td>
@@ -38,8 +94,7 @@ $week = (int)date('W') +19;
                     @endfor
             </tr>
             @endfor
-
-
+            </tbody>
         </table>
     </div>
 <script>

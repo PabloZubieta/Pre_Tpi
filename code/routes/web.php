@@ -19,7 +19,7 @@ Route::get('/', function () {
 });
 
 Route::get('/carpooling',function () {
-    return view('home');
+    return view('carpooling');
 });
 
 Route::get('/profile', [UserController::class, 'profile'] );

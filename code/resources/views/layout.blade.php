@@ -16,14 +16,19 @@
 </head>
 <body>
 <header>
-<h2>Ecolopnv</h2>
+
+
+<h1 class="display-1" style=" text-align: center">Ecolopnv</h1>
+
+    @auth
+        <div class="right-align" style="text-align:right; margin-right: 5px"><h5>bienvenue {{auth()->user()->last_name}}</h5></div>
+    @endauth
 </header>
 <nav>
     <ul class="nav">
         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
 
         @auth
-            <li class="nav-item"><h4>bienvenue {{auth()->user()->last_name}}</h4></li>
         <li class="nav-item"><a class="nav-link" href="/carpooling">My Carpooling</a></li>
         <li class="nav-item"><a class="nav-link" href="/schedule">My Schedule</a></li>
         <li class="nav-item"><a class="nav-link" href="/profile">My Profile</a></li>
