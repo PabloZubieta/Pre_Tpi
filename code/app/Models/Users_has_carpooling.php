@@ -11,4 +11,9 @@ class Users_has_carpooling extends Model
 
 
     protected $table = 'users_has_carpooling';
+
+    protected $fillable = [
+        'users_id',
+        'carpooling_id'
+    ];
 }

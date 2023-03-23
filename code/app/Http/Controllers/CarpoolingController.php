@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Carpooling;
+use App\Models\Users_has_carpooling;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +18,7 @@ class CarpoolingController extends Controller
         $placecars =[];
 
         foreach ($places as $place){
-            $entries = DB::table('users_does_edt')->join('users','users_does_edt.users_id',"=" ,'users.id')->select('users_does_edt.id','starting_hour','finnishing_hour','users.username','users.car_seat')->where('starting_hour','like',$date)->where('users.place_id','=',$place->id)->get();
+            $entries = DB::table('users_does_edt')->join('users','users_does_edt.users_id',"=" ,'users.id')->select('users.id','starting_hour','finnishing_hour','users.username','users.car_seat')->where('starting_hour','like',$date)->where('users.place_id','=',$place->id)->get();
             $entries= $entries->groupBy('starting_hour');
             if(sizeof($entries)>=1){
                 $placeentries =[];
@@ -36,6 +37,7 @@ class CarpoolingController extends Controller
             }
 
         }
+
 
 
         $carpoolings= [];
@@ -81,22 +83,27 @@ class CarpoolingController extends Controller
 
 
         }
+
         foreach ($carpoolings as $carpooling){
+
             $entries = [
                 'carpooling_time' =>$carpooling['time'],
                 'place_id'=>$carpooling['id'],
-                'users_id'=>$carpooling['$driver']->id
+                'driver_id'=>$carpooling['driver']->id
 
             ];
-            Carpooling::create($entries);
+
+            $idcarpolling = Carpooling::insertGetId($entries);
+
+
+
 
             foreach ($carpooling['carpoolers'] as $carpooler){
                 $entry =[
-
-
-
-
+                    'carpooling_id' =>$idcarpolling,
+                    'users_id'=>$carpooler->id
                 ];
+                Users_has_carpooling::create($entry);
 
             }
 
@@ -104,7 +111,10 @@ class CarpoolingController extends Controller
         }
 
 
-        return $carpoolings ;
+
+
+
+
 
     }
 }

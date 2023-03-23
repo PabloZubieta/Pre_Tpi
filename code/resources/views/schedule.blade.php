@@ -8,7 +8,6 @@
 $week = (int)date('W') +19;
 
 ?>
-@dd($schedules)
 
 @extends('layout')
 

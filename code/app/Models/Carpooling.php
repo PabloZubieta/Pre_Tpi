@@ -11,4 +11,10 @@ class Carpooling extends Model
 
 
     protected $table = 'carpooling';
+
+    protected $fillable = [
+        'carpooling_time',
+        'driver_id',
+        'place_id'
+    ];
 }
