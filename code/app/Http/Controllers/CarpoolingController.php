@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Carpooling;
+use App\Models\User;
 use App\Models\Users_has_carpooling;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -113,40 +114,104 @@ class CarpoolingController extends Controller
 
     public function display(){
         //$this->create();
-        $lastdriven=Carpooling::where('driver_id','=',auth()->user()->id)->where('carpooling_3/4','=',1)->leftjoin('users_has_carpooling','carpooling.id','=','users_has_carpooling.carpooling_id')->select('carpooling.id', 'carpooling.carpooling_time', 'carpooling.driver_id', 'carpooling.place_id', 'users_has_carpooling.users_id')->get();
-        $lastdriven_maxid= $lastdriven->max('id');
-        $lastdriven = $lastdriven->sortByDesc('id')->groupBy('id');
-
-        return view('carpooling',['lastdriven'=>$lastdriven[$lastdriven_maxid] ]);
-
-
-
-
-        $lasttakenid =Users_has_carpooling::where('users_id','=',auth()->user()->id)->orderbydesc('id')->select('carpooling_id')->limit(1)->get();
-
-
-        $lasttaken= collect([]);
-        $lasttakenUser= collect([]);
-        if(!empty($lasttakenid[0])){
-
-            $lasttaken = Carpooling::where('id','=',$lasttakenid[0]->carpooling_id)->get();
-            $lasttakenUser  = Users_has_carpooling::where('carpooling_id','=',$lasttaken[0]->id)->get();
-
+        $lastdriven=Carpooling::where('driver_id','=',auth()->user()->id)
+            ->where('carpooling_3/4','=',1)
+            ->leftjoin('users_has_carpooling','carpooling.id','=','users_has_carpooling.carpooling_id')
+            ->join('places','carpooling.place_id','=','places.id')
+            ->join('users','users_has_carpooling.users_id','=','users.id')
+            ->select('carpooling.id', 'carpooling.carpooling_time', 'carpooling.driver_id', 'places.name', 'users.username')
+            ->get();
+        if($lastdriven->isNotEmpty()){
+            $lastdriven_maxid= $lastdriven->max('id');
+            $lastdriven = $lastdriven->sortByDesc('id')->groupBy('id');
+            $lastdriven =$lastdriven[$lastdriven_maxid];
         }
 
 
-        $nextcarpooling=Carpooling::where('driver_id','=',auth()->user()->id)->where('carpooling_3/4','is',null)->orderbydesc('id')->limit(1)->get();
-        $nextcarpoolingid =Users_has_carpooling::where('users_id','=',auth()->user()->id)->where('user_confirm','is',null)->orderbydesc('id')->select('carpooling_id')->limit(1)->get();
-        $lastdriven=Carpooling::where('driver_id','=',auth()->user()->id)->where('carpooling_3/4','is',null)->orderbydesc('id')->limit(1)->get();
 
 
-        return view('carpooling',['lastdriven'=>[$lastdriven,$lastdrivenUser], 'lasttaken'=>[$lasttaken,$lasttakenUser], 'nextcarpooling'=>$lasttaken]);
+
+
+        $lasttakenid=Users_has_carpooling::where('users_id','=',auth()->user()->id)->select('carpooling_id')->join('carpooling','users_has_carpooling.carpooling_id','=','carpooling.id')->where('carpooling_3/4','=',1)->where('user_confirm','=',1)->orderByDesc('carpooling.id')->limit(1)->get();
+        if(!$lasttakenid->isEmpty())
+        {
+
+            $lasttaken=Carpooling::where('carpooling.id','=',$lasttakenid[0]->carpooling_id)
+                ->where('user_confirm','=',1)
+                ->leftjoin('users_has_carpooling','carpooling.id','=','users_has_carpooling.carpooling_id')
+                ->join('places','carpooling.place_id','=','places.id')
+                ->join('users','users_has_carpooling.users_id','=','users.id')
+                ->select('carpooling.id', 'carpooling.carpooling_time', 'carpooling.driver_id', 'places.name', 'users.username')
+                ->get();
+            $lasttaken[0]->driver_id =(User::where('id','=',$lasttaken[0]->driver_id)->select('username')->get())[0]->username;
+
+
+
+        }
+        else{
+            $lasttaken=collect([]);
+        }
+
+
+        $nextcarpoolingid=Carpooling::leftjoin('users_has_carpooling','carpooling.id','=','users_has_carpooling.carpooling_id')
+            ->where('carpooling_3/4')
+
+            ->
+            where(function ($query) {
+                $query->where('driver_id','=',auth()->user()->id)
+                    ->orWhere(
+                    function ($query2) {
+                        $query2->where('users_id','=',auth()->user()->id)
+                            ->
+                            where(function ($query3) {
+                                $query3->where('user_confirm')
+                                    ->orWhere('user_confirm','=',1);
+                            });
+                    });
+            })
+
+            ->limit(1)->select('carpooling.id')->get();
+
+        if(!$nextcarpoolingid->isEmpty())
+        {
+
+            $nextcarpooling=Carpooling::where('users_has_carpooling.carpooling_id','=',$nextcarpoolingid[0]->id)
+                ->
+                where(function ($query) {
+                    $query->where('user_confirm')
+                        ->orWhere('user_confirm','=',1);
+                })
+                ->leftjoin('users_has_carpooling','carpooling.id','=','users_has_carpooling.carpooling_id')
+                ->join('places','carpooling.place_id','=','places.id')
+                ->join('users','users_has_carpooling.users_id','=','users.id')
+                ->select('carpooling.id', 'carpooling.carpooling_time', 'carpooling.driver_id', 'places.name', 'users.username')
+                ->get();
+
+
+
+
+            $nextcarpooling[0]->driver_id =(User::where('id','=',$nextcarpooling[0]->driver_id)->select('username')->get())[0]->username;
+
+
+
+        }
+        else{
+            $nextcarpooling=collect([]);
+        }
+
+        return view('carpooling',['lastdriven'=>$lastdriven,'lasttaken'=>$lasttaken,'nextcarpooling'=>$nextcarpooling]);
+
 
 
     }
 
-    public function validate_carpool(){
+    public function validate_carpool(Request $request){
 
+
+
+
+
+        return back();
 
 
 

@@ -9,6 +9,8 @@ $title ="Ecolopnv-covoit";
 ?>
 
 
+
+
 @extends('layout')
 
 @section('content')
@@ -17,83 +19,147 @@ $title ="Ecolopnv-covoit";
         <div class="row" >
             <div class="col-lg-6 col-md-12 col-sm-12">
                 <h4 style=" text-align: center">Next carpooling</h4>
-                <div class="row">
-                    <div class="col-6 ">
-                        <p>time:{{$lastdriven[0]->carpooling_time}} </p>
-                        <p>place:{{$lastdriven[0]->place_id}}</p>
-                        <p>driver:{{$lastdriven[0]->driver_id}}</p>
+                @if($nextcarpooling->isEmpty())
+                    <div>
+                        <p>aucun covoiturage de prevu</p>
                     </div>
-                    <div class="col-6 ">
-                        <p>
-                            passenger
-                        </p>
-                        <table class="table table-striped">
-                            @foreach($lastdriven as $lastdrive)
-                                <tr>
-                                    <td>{{$lastdrive->users_id}}</td>
-                                </tr>
+                @else
+                    <div class="row">
+                        <div class="col-6 ">
+                            <p>time: {{$nextcarpooling[0]->carpooling_time}} </p>
+                            <p>place: {{$nextcarpooling[0]->name}}</p>
+                            <p>driver:
+                                @if($nextcarpooling[0]->driver_id==auth()->user()->username)
+                                    YOU
+                                @else
+                                    {{$nextcarpooling[0]->driver_id}}
+                                @endif
+                                </p>
+                        </div>
+                        <div class="col-6 ">
+                            <p>
+                                passenger
+                            </p>
+                            <table class="table table-striped">
+                                @foreach($nextcarpooling as $nextcarpoolin)
+                                    <tr>
+                                        <td>
+                                            @if($nextcarpoolin->username==auth()->user()->username)
+                                                YOU
+                                            @else
+                                                {{$nextcarpoolin->username}}
+                                            @endif</td>
+                                    </tr>
 
-                            @endforeach
-                        </table>
-
+                                @endforeach
+                            </table>
+                        </div>
                     </div>
-                </div>
+                @endif
+
             </div>
             <div class="col-lg-6 col-md-12 col-sm-12" >
-                <h4 style=" text-align: center">last taken carpooling</h4>
-                <div class="row">
-                    <div class="col-6 ">
-                        <p>time:{{$lastdriven[0]->carpooling_time}} </p>
-                        <p>place:{{$lastdriven[0]->place_id}}</p>
-                        <p>driver:{{$lastdriven[0]->driver_id}}</p>
+                <h4 style=" text-align: center">Last taken carpooling</h4>
+                @if($lasttaken->isEmpty())
+                    <div>
+                        <p>Aucun covoiturage pris</p>
                     </div>
-                    <div class="col-6 ">
-                        <p>
-                            passenger
-                        </p>
-                        <table class="table table-striped">
-                            @foreach($lastdriven as $lastdrive)
-                                <tr>
-                                    <td>{{$lastdrive->users_id}}</td>
-                                </tr>
+                @else
+                    <div class="row">
+                        <div class="col-6 ">
+                            <p>time: {{$lasttaken[0]->carpooling_time}} </p>
+                            <p>place: {{$lasttaken[0]->name}}</p>
+                            <p>driver: {{$lasttaken[0]->driver_id}}</p>
+                        </div>
+                        <div class="col-6 ">
+                            <p>
+                                passenger
+                            </p>
+                            <table class="table table-striped">
+                                @foreach($lasttaken as $lasttake)
+                                    <tr>
+                                        <td>
+                                            @if($lasttake->username==auth()->user()->username)
+                                                YOU
+                                            @else
+                                                {{$lasttake->username}}
+                                            @endif
+                                            </td>
+                                    </tr>
 
-                            @endforeach
-                        </table>
-
+                                @endforeach
+                            </table>
+                        </div>
                     </div>
-                </div>
+                @endif
+
             </div>
         </div>
         <div class="row" >
             <div class="col-lg-6 col-md-12 col-sm-12">
-                <h4 style=" text-align: center"></h4>
+                <h4 style=" text-align: center">Validate</h4>
                 <div class="row">
-                    <div class="col-6 "></div>
-                    <div class="col-6 "></div>
+                    <div class="col-6 ">
+                        <form  method="POST" action="/validate">
+                            @csrf <!-- juste de la securité  https://laravel.com/docs/5.8/csrf -->
+                            @method('PUT')
+                            <div class="mb-3">
+                                <input type="number"  name="conf"  value="1" hidden >
+                            </div>
+                            <div id="submit" >
+                                <button type="submit" name="Validate" class="btn btn-primary col-12">validate</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-6 ">
+                        <form  method="POST" action="/validate">
+                            @csrf <!-- juste de la securité  https://laravel.com/docs/5.8/csrf -->
+                            @method('PUT')
+                            <div class="mb-3">
+                                <input type="number"  name="conf"  value="0" hidden>
+                            </div>
+                            <div class="mb-3">
+                                <input type="number"  name="conf"  value="0" hidden>
+                            </div>
+                            <div id="submit" >
+
+                                <button type="submit" name="Validate" class="btn btn-primary col-12">reject</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
+
+
+
             </div>
             <div class="col-lg-6 col-md-12 col-sm-12" >
-                <h4 style=" text-align: center">last driven carpooling</h4>
-                <div class="row">
-                    <div class="col-6 ">
-                        <p>time:{{$lastdriven[0]->carpooling_time}} </p>
-                        <p>place:{{$lastdriven[0]->place_id}}</p>
-                        <p>driver:{{$lastdriven[0]->driver_id}}</p>
+                <h4 style=" text-align: center">Last driven carpooling</h4>
+                @if($lastdriven->isEmpty())
+                    <div>
+                        <p>aucun covoiturage conduit</p>
                     </div>
-                    <div class="col-6 ">
-                        <p>
-                            passenger
-                        </p>
-                        <table class="table table-striped">
-                            @foreach($lastdriven as $lastdrive)
-                                <tr>
-                                    <td>{{$lastdrive->users_id}}</td>
-                                </tr>
+                @else
+                    <div class="row">
+                        <div class="col-6 ">
+                            <p>time: {{$lastdriven[0]->carpooling_time}} </p>
+                            <p>place: {{$lastdriven[0]->name}}</p>
+                        </div>
+                        <div class="col-6 ">
+                            <p>
+                                passenger
+                            </p>
+                            <table class="table table-striped">
+                                @foreach($lastdriven as $lastdrive)
+                                    <tr>
+                                        <td>{{$lastdrive->username}}</td>
+                                    </tr>
 
-                            @endforeach
-                        </table>
+                                @endforeach
+                            </table>
+                        </div>
                     </div>
-                </div>
+                @endif
+
             </div>
         </div>
 
