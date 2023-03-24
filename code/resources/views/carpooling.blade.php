@@ -7,7 +7,7 @@
  */
 $title ="Ecolopnv-covoit";
 ?>
-@dd($lasttaken)
+
 
 @extends('layout')
 
@@ -18,15 +18,49 @@ $title ="Ecolopnv-covoit";
             <div class="col-lg-6 col-md-12 col-sm-12">
                 <h4 style=" text-align: center">Next carpooling</h4>
                 <div class="row">
-                    <div class="col-6 "></div>
-                    <div class="col-6 "></div>
+                    <div class="col-6 ">
+                        <p>time:{{$lastdriven[0]->carpooling_time}} </p>
+                        <p>place:{{$lastdriven[0]->place_id}}</p>
+                        <p>driver:{{$lastdriven[0]->driver_id}}</p>
+                    </div>
+                    <div class="col-6 ">
+                        <p>
+                            passenger
+                        </p>
+                        <table class="table table-striped">
+                            @foreach($lastdriven as $lastdrive)
+                                <tr>
+                                    <td>{{$lastdrive->users_id}}</td>
+                                </tr>
+
+                            @endforeach
+                        </table>
+
+                    </div>
                 </div>
             </div>
             <div class="col-lg-6 col-md-12 col-sm-12" >
                 <h4 style=" text-align: center">last taken carpooling</h4>
                 <div class="row">
-                    <div class="col-6 "></div>
-                    <div class="col-6 "></div>
+                    <div class="col-6 ">
+                        <p>time:{{$lastdriven[0]->carpooling_time}} </p>
+                        <p>place:{{$lastdriven[0]->place_id}}</p>
+                        <p>driver:{{$lastdriven[0]->driver_id}}</p>
+                    </div>
+                    <div class="col-6 ">
+                        <p>
+                            passenger
+                        </p>
+                        <table class="table table-striped">
+                            @foreach($lastdriven as $lastdrive)
+                                <tr>
+                                    <td>{{$lastdrive->users_id}}</td>
+                                </tr>
+
+                            @endforeach
+                        </table>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -41,8 +75,24 @@ $title ="Ecolopnv-covoit";
             <div class="col-lg-6 col-md-12 col-sm-12" >
                 <h4 style=" text-align: center">last driven carpooling</h4>
                 <div class="row">
-                    <div class="col-6 "></div>
-                    <div class="col-6 "></div>
+                    <div class="col-6 ">
+                        <p>time:{{$lastdriven[0]->carpooling_time}} </p>
+                        <p>place:{{$lastdriven[0]->place_id}}</p>
+                        <p>driver:{{$lastdriven[0]->driver_id}}</p>
+                    </div>
+                    <div class="col-6 ">
+                        <p>
+                            passenger
+                        </p>
+                        <table class="table table-striped">
+                            @foreach($lastdriven as $lastdrive)
+                                <tr>
+                                    <td>{{$lastdrive->users_id}}</td>
+                                </tr>
+
+                            @endforeach
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

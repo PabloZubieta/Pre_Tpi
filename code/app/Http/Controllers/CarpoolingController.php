@@ -113,12 +113,14 @@ class CarpoolingController extends Controller
 
     public function display(){
         //$this->create();
+        $lastdriven=Carpooling::where('driver_id','=',auth()->user()->id)->where('carpooling_3/4','=',1)->leftjoin('users_has_carpooling','carpooling.id','=','users_has_carpooling.carpooling_id')->select('carpooling.id', 'carpooling.carpooling_time', 'carpooling.driver_id', 'carpooling.place_id', 'users_has_carpooling.users_id')->get();
+        $lastdriven_maxid= $lastdriven->max('id');
+        $lastdriven = $lastdriven->sortByDesc('id')->groupBy('id');
 
-        $lastdriven=Carpooling::where('driver_id','=',auth()->user()->id)->where('carpooling_3/4','=',1)->orderbydesc('id')->limit(1)->get();
-        $lastdrivenUser= collect([]);
-        if (!empty($lastdriven[0])){
-            $lastdrivenUser  = Users_has_carpooling::where('carpooling_id','=',$lastdriven[0]->id)->get();
-        }
+        return view('carpooling',['lastdriven'=>$lastdriven[$lastdriven_maxid] ]);
+
+
+
 
         $lasttakenid =Users_has_carpooling::where('users_id','=',auth()->user()->id)->orderbydesc('id')->select('carpooling_id')->limit(1)->get();
 
@@ -131,23 +133,14 @@ class CarpoolingController extends Controller
             $lasttakenUser  = Users_has_carpooling::where('carpooling_id','=',$lasttaken[0]->id)->get();
 
         }
-        $nextcarpooling=Carpooling::where('driver_id','=',auth()->user()->id)->where('carpooling_3/4','=',null)->orderbydesc('id')->limit(1)->get();
-        $nextcarpoolingid =Users_has_carpooling::where('users_id','=',auth()->user()->id)->where('carpooling_3/4','=',null)->orderbydesc('id')->select('carpooling_id')->limit(1)->get();
-        $lastdriven=Carpooling::where('driver_id','=',auth()->user()->id)->where('carpooling_3/4','=',null)->orderbydesc('id')->limit(1)->get();
+
+
+        $nextcarpooling=Carpooling::where('driver_id','=',auth()->user()->id)->where('carpooling_3/4','is',null)->orderbydesc('id')->limit(1)->get();
+        $nextcarpoolingid =Users_has_carpooling::where('users_id','=',auth()->user()->id)->where('user_confirm','is',null)->orderbydesc('id')->select('carpooling_id')->limit(1)->get();
+        $lastdriven=Carpooling::where('driver_id','=',auth()->user()->id)->where('carpooling_3/4','is',null)->orderbydesc('id')->limit(1)->get();
 
 
         return view('carpooling',['lastdriven'=>[$lastdriven,$lastdrivenUser], 'lasttaken'=>[$lasttaken,$lasttakenUser], 'nextcarpooling'=>$lasttaken]);
-
-
-
-
-
-
-
-
-
-
-
 
 
     }
