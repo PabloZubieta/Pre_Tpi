@@ -13,76 +13,58 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
--- Listage de la structure de la base pour carpool
-DROP DATABASE IF EXISTS `carpool`;
-CREATE DATABASE IF NOT EXISTS `carpool` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
-USE `carpool`;
+-- Listage de la structure de la base pour snows
+CREATE DATABASE IF NOT EXISTS `snows` /*!40100 DEFAULT CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci */;
+USE `snows`;
 
--- Listage de la structure de la table carpool. carpooling
-DROP TABLE IF EXISTS `carpooling`;
+-- Listage de la structure de la table snows. carpooling
 CREATE TABLE IF NOT EXISTS `carpooling` (
-  `id` int(11) NOT NULL,
-  `Carpooling_time` datetime NOT NULL,
-  `Carpolling_3/4` tinyint(2) NOT NULL,
-  `Driver_id` int(11) NOT NULL,
-  `Driver_validate` varchar(45) NOT NULL,
-  `Places_id` int(11) NOT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `carpooling_time` datetime NOT NULL,
+  `carpooling_34` tinyint(4) DEFAULT NULL,
+  `driver_validate` tinyint(4) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `place_id` bigint(20) unsigned NOT NULL,
+  `driver_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_Carpooling_teachers_idx` (`Driver_id`),
-  KEY `fk_Carpooling_Places1_idx` (`Places_id`),
-  CONSTRAINT `fk_Carpooling_Places1` FOREIGN KEY (`Places_id`) REFERENCES `places` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Carpooling_teachers` FOREIGN KEY (`Driver_id`) REFERENCES `teachers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  KEY `carpooling_place_id_foreign` (`place_id`),
+  KEY `carpooling_driver_id_foreign` (`driver_id`),
+  CONSTRAINT `carpooling_driver_id_foreign` FOREIGN KEY (`driver_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `carpooling_place_id_foreign` FOREIGN KEY (`place_id`) REFERENCES `places` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Les données exportées n'étaient pas sélectionnées.
 
--- Listage de la structure de la table carpool. edt
-DROP TABLE IF EXISTS `edt`;
+-- Listage de la structure de la table snows. edt
 CREATE TABLE IF NOT EXISTS `edt` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `EDT_schedule` mediumtext NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idEDT_UNIQUE` (`id`)
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `edt_schedule` mediumtext NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Les données exportées n'étaient pas sélectionnées.
 
--- Listage de la structure de la table carpool. edtread
-DROP TABLE IF EXISTS `edtread`;
+-- Listage de la structure de la table snows. edtread
 CREATE TABLE IF NOT EXISTS `edtread` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `duree` varchar(50) DEFAULT '0',
-  `frequence` varchar(3) DEFAULT '0',
-  `professeur` varchar(50) DEFAULT '0',
-  `abrev` varchar(3) DEFAULT '0',
-  `codemat` varchar(15) DEFAULT '0',
-  `classe` varchar(350) DEFAULT '0',
-  `jour` varchar(10) DEFAULT '0',
-  `heure` varchar(5) DEFAULT '0',
-  `semaines` varchar(50) DEFAULT '0',
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `duree` tinyint(4) DEFAULT NULL,
+  `frequence` varchar(3) DEFAULT NULL,
+  `professeur` varchar(50) DEFAULT NULL,
+  `abrev` varchar(3) DEFAULT NULL,
+  `codemat` varchar(15) DEFAULT NULL,
+  `classe` varchar(350) DEFAULT NULL,
+  `jour` tinyint(3) DEFAULT NULL,
+  `heure` tinyint(4) DEFAULT NULL,
+  `semaines` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=530 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3458 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Les données exportées n'étaient pas sélectionnées.
 
--- Listage de la structure de la table carpool. edt_has_teachers
-DROP TABLE IF EXISTS `edt_has_teachers`;
-CREATE TABLE IF NOT EXISTS `edt_has_teachers` (
-  `EDT_id` int(11) NOT NULL,
-  `teachers_id` int(11) NOT NULL,
-  `Starting_hour` datetime NOT NULL,
-  `Finnishing_hour` datetime NOT NULL,
-  PRIMARY KEY (`EDT_id`,`teachers_id`),
-  KEY `fk_EDT_has_teachers_teachers1_idx` (`teachers_id`),
-  KEY `fk_EDT_has_teachers_EDT1_idx` (`EDT_id`),
-  CONSTRAINT `fk_EDT_has_teachers_EDT1` FOREIGN KEY (`EDT_id`) REFERENCES `edt` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_EDT_has_teachers_teachers1` FOREIGN KEY (`teachers_id`) REFERENCES `teachers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Les données exportées n'étaient pas sélectionnées.
-
--- Listage de la structure de la procédure carpool. edt_treat
-DROP PROCEDURE IF EXISTS `edt_treat`;
+-- Listage de la structure de la procédure snows. edt_treat
 DELIMITER //
 CREATE PROCEDURE `edt_treat`()
 BEGIN
@@ -118,7 +100,7 @@ DO
 set myvalue = (SELECT SUBSTRING_INDEX(myrow ,';',i));
 SET myvalue = (select SUBSTRING_INDEX(myvalue ,';',-1));
 if i = 2 then
-SET myduree = myvalue;
+SET myduree = (SELECT cast(SUBSTRING(myvalue ,1,1) AS int));
 ELSEIF i = 3 then
 SET myfrec = myvalue;
 ELSEIF i = 4 then
@@ -128,69 +110,156 @@ SET myabv = myvalue;
 ELSEIF i = 6 then
 SET mymat = myvalue;
 ELSEIF i = 8 && (myname != '') then
-SET myclass = myvalue;
+SET myclass = (select SUBSTRING(myvalue ,1,350));
 ELSEIF i = 15 then
-SET myday = myvalue;
+if myvalue = 'lundi' then
+SET myday = 0;
+ELSEIF myvalue = 'mardi' then
+SET myday = 1;
+ELSEIF myvalue = 'mercredi' then
+SET myday = 2;
+ELSEIF myvalue = 'jeudi' then
+SET myday = 3;
+ELSEIF myvalue = 'vendredi' then
+SET myday = 4;
+ELSEIF myvalue = 'samedi' then
+SET myday = 5;
+END if;
 ELSEIF i = 16 then
-SET mytime = myvalue;
+SET mytime = (select cast(SUBSTRING(myvalue ,1,2)AS int));
 ELSEIF i = 18 then
-SET myweek = myvalue;
+SET myweek = (select SUBSTRING(myvalue ,2,LENGTH(myvalue)-2));
 END if;
 END FOR;
 
 if myname != '' then
-INSERT INTO edtread (duree, frequence ,professeur, abrev, codemat, classe, jour, heure, semaines) 
+INSERT INTO edtread (duree, frequence ,professeur, abrev, codemat, classe, jour, heure, semaine) 
 VALUES (myduree, myfrec, myname, myabv, mymat, myclass, myday, mytime, myweek );
 END if;
 END if;
 SET intfor = intfor +1;
 END while;
-insert into teachers (acronyme, teacher_lastname) SELECT distinct  abrev , professeur FROM carpool.edtread; 
+insert into users (username, last_name) SELECT distinct  abrev , professeur FROM snows.edtread; 
 END//
 DELIMITER ;
 
--- Listage de la structure de la table carpool. places
-DROP TABLE IF EXISTS `places`;
-CREATE TABLE IF NOT EXISTS `places` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `Place_name` varchar(60) NOT NULL,
+-- Listage de la structure de la table snows. failed_jobs
+CREATE TABLE IF NOT EXISTS `failed_jobs` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
-  UNIQUE KEY `Place_name_UNIQUE` (`Place_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Les données exportées n'étaient pas sélectionnées.
-
--- Listage de la structure de la table carpool. teachers
-DROP TABLE IF EXISTS `teachers`;
-CREATE TABLE IF NOT EXISTS `teachers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `acronyme` varchar(3) DEFAULT NULL,
-  `teacher_lastname` varchar(45) DEFAULT NULL,
-  `teacher_Password` varchar(45) DEFAULT NULL,
-  `teacher_car_seats` int(4) DEFAULT NULL,
-  `teacher_email` varchar(200) DEFAULT NULL,
-  `Places_id` int(11) DEFAULT NULL,
-  `active` tinyint(4) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `acronyme` (`acronyme`),
-  KEY `fk_teachers_Places1_idx` (`Places_id`),
-  CONSTRAINT `fk_teachers_Places1` FOREIGN KEY (`Places_id`) REFERENCES `places` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=512 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Les données exportées n'étaient pas sélectionnées.
-
--- Listage de la structure de la table carpool. teachers_has_carpooling
-DROP TABLE IF EXISTS `teachers_has_carpooling`;
-CREATE TABLE IF NOT EXISTS `teachers_has_carpooling` (
-  `teachers_id` int(11) NOT NULL,
-  `Carpooling_id` int(11) NOT NULL,
-  `teacher_validation` tinyint(2) NOT NULL,
-  PRIMARY KEY (`teachers_id`,`Carpooling_id`),
-  KEY `fk_teachers_has_Carpooling_Carpooling1_idx` (`Carpooling_id`),
-  KEY `fk_teachers_has_Carpooling_teachers1_idx` (`teachers_id`),
-  CONSTRAINT `fk_teachers_has_Carpooling_Carpooling1` FOREIGN KEY (`Carpooling_id`) REFERENCES `carpooling` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_teachers_has_Carpooling_teachers1` FOREIGN KEY (`teachers_id`) REFERENCES `teachers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Les données exportées n'étaient pas sélectionnées.
+
+-- Listage de la structure de la table snows. migrations
+CREATE TABLE IF NOT EXISTS `migrations` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) NOT NULL,
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Les données exportées n'étaient pas sélectionnées.
+
+-- Listage de la structure de la table snows. password_resets
+CREATE TABLE IF NOT EXISTS `password_resets` (
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Les données exportées n'étaient pas sélectionnées.
+
+-- Listage de la structure de la table snows. personal_access_tokens
+CREATE TABLE IF NOT EXISTS `personal_access_tokens` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `tokenable_type` varchar(255) NOT NULL,
+  `tokenable_id` bigint(20) unsigned NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `abilities` text DEFAULT NULL,
+  `last_used_at` timestamp NULL DEFAULT NULL,
+  `expires_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
+  KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Les données exportées n'étaient pas sélectionnées.
+
+-- Listage de la structure de la table snows. places
+CREATE TABLE IF NOT EXISTS `places` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `places_name_unique` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Les données exportées n'étaient pas sélectionnées.
+
+-- Listage de la structure de la table snows. users
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` date DEFAULT NULL,
+  `active` tinyint(4) NOT NULL DEFAULT 0,
+  `car_seat` int(11) DEFAULT NULL,
+  `place_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_username_unique` (`username`),
+  KEY `users_place_id_foreign` (`place_id`),
+  CONSTRAINT `users_place_id_foreign` FOREIGN KEY (`place_id`) REFERENCES `places` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=663 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Les données exportées n'étaient pas sélectionnées.
+
+-- Listage de la structure de la table snows. users_does_edt
+CREATE TABLE IF NOT EXISTS `users_does_edt` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `starting_hour` datetime NOT NULL,
+  `finnishing_hour` datetime NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `users_id` bigint(20) unsigned NOT NULL,
+  `edt_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `users_does_edt_users_id_foreign` (`users_id`),
+  CONSTRAINT `users_does_edt_users_id_foreign` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=218 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Les données exportées n'étaient pas sélectionnées.
+
+-- Listage de la structure de la table snows. users_has_carpooling
+CREATE TABLE IF NOT EXISTS `users_has_carpooling` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_confirm` tinyint(4) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `users_id` bigint(20) unsigned NOT NULL,
+  `carpooling_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `users_has_carpooling_users_id_foreign` (`users_id`),
+  KEY `users_has_carpooling_carpooling_id_foreign` (`carpooling_id`),
+  CONSTRAINT `users_has_carpooling_carpooling_id_foreign` FOREIGN KEY (`carpooling_id`) REFERENCES `carpooling` (`id`),
+  CONSTRAINT `users_has_carpooling_users_id_foreign` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Les données exportées n'étaient pas sélectionnées.
 
