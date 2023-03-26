@@ -95,7 +95,7 @@ $title ="Ecolopnv-profil";
                             @enderror
                         </div>
 
-                        <div>
+                        <!--<div>
                             <button onclick="hide_show('pass')">Edit pwd </button>
                         </div>
                         <div id="pass" style="display: none" >
@@ -114,6 +114,7 @@ $title ="Ecolopnv-profil";
                                 @enderror
                             </div>
                         </div>
+                        -->
 
                         <div id="submit" style="display: none">
                             <button type="submit" name="sign" class="btn btn-primary">validate</button>

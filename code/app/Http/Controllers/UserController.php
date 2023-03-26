@@ -106,18 +106,18 @@ class UserController extends Controller
     public function actualise(Request $request){
         $formFields = $request->validate([
             'place'=> 'required',
-            'car_seat'=>'required',
-            'password'=>'confirmed|min:8'
+            'car_seat'=>'required'
+            //,'password'=>'confirmed|min:8'
         ]);
 
 
         $user = User::firstWhere('username', auth()->user()->username);
 
-        if ($formFields['password']!=null){
-            $user->password = bcrypt($formFields['password']);
-        }
+       // if ($formFields['password']!=null){
+          //  $user->password = bcrypt($formFields['password']);
+    //}
         $user->car_seat = $formFields['car_seat'];
-        $user ->place_id =$formFields['place'];
+        $user->place_id =$formFields['place'];
         $user->save();
 
         return back();

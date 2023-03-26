@@ -20,7 +20,7 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/validate',[CarpoolingController::class, 'validate_carpool'] );
+Route::put('/validate',[CarpoolingController::class, 'validate_carpool'] );
 
 Route::get('/carpooling',[CarpoolingController::class, 'display'] );
 
