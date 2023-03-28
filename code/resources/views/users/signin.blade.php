@@ -81,10 +81,10 @@ $title ="Ecolopnv-inscription";
             </div >
             <div class="mb-3 row">
 
-                <button type="submit" name="sign" class="btn btn-primary col-5" >signin</button>
+                <button type="submit" name="sign" class="btn btn-primary col-5" style="background-color: #a7c957;color:#bc4749;border:#386641">signin</button>
                 <div class="col-2"></div>
 
-                <button type="reset" class="btn btn-primary col-5" >Annuler </button>
+                <button type="reset" class="btn btn-primary col-5" style="background-color: #a7c957;color:#bc4749;border:#386641">Annuler </button>
             </div>
 
 

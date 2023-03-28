@@ -14,6 +14,19 @@ use mysql_xdevapi\Collection;
 class CarpoolingController extends Controller
 {
     //
+    public function daily_loop()
+    {
+        $carpoolings= Carpooling::where('carpooling_34')->get();
+        if(!$carpoolings->isEmpty()){
+            foreach ($carpoolings as $carpooling){
+                $carpooling->carpooling_34=0;
+                $carpooling->save();
+            }
+        }
+
+    }
+
+
     public function create(){
         $places = DB::table('places')->select('id')->get();
         $date =date('Y-m-d',strtotime('tomorrow')).'%';

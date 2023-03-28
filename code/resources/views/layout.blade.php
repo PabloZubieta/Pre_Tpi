@@ -21,7 +21,7 @@
 <h1 class="display-1" style=" text-align: center">Ecolopnv</h1>
 
     @auth
-        <div class="right-align" style="text-align:right; margin-right: 5px"><h5>Bienvenue
+        <div class="right-align" style="text-align:right; margin-right: 5px;color:#386641"><h5>Bienvenue
                 @if(auth()->user()->username =='PHI')
                     à vous M.
                 @endif
@@ -38,16 +38,16 @@
         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
 
         @auth
-        <li class="nav-item"><a class="nav-link" href="/carpooling">My Carpooling</a></li>
-        <li class="nav-item"><a class="nav-link" href="/schedule">My Schedule</a></li>
-        <li class="nav-item"><a class="nav-link" href="/profile">My Profile</a></li>
+        <li class="nav-item"><a class="nav-link" href="/carpooling" style="color:#386641">My Carpooling</a></li>
+        <li class="nav-item"><a class="nav-link" href="/schedule" style="color:#386641">My Schedule</a></li>
+        <li class="nav-item"><a class="nav-link" href="/profile" style="color:#386641">My Profile</a></li>
             <li class="nav-item" ><form method="post" action="/logout" style="border-color: white;background-color: white; box-shadow:0 0">
                     @csrf
-                    <button class="nav-link" type="submit"  style="border-color: white;background-color: white; box-shadow:0 0" >Logout</button>
+                    <button class="nav-link" type="submit"  style="color:#386641;border-color: white;background-color: white; box-shadow:0 0" >Logout</button>
                 </form></li>
         @else
-        <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
-        <li class="nav-item"><a class="nav-link" href="/signin">Sign in</a></li>
+        <li class="nav-item"><a class="nav-link" href="/login" style="color:#386641">Login</a></li>
+        <li class="nav-item"><a class="nav-link" href="/signin" style="color:#386641">Sign in</a></li>
         @endauth
     </ul>
 </nav>

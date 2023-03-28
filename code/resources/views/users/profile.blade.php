@@ -117,7 +117,7 @@ $title ="Ecolopnv-profil";
                         -->
 
                         <div id="submit" style="display: none">
-                            <button type="submit" name="sign" class="btn btn-primary">validate</button>
+                            <button type="submit" name="sign" class="btn btn-primary" style="background-color: #a7c957;color:#bc4749;border:#386641">validate</button>
                         </div>
 
 

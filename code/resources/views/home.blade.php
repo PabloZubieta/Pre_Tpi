@@ -11,7 +11,7 @@ $title ="Ecolopnv";
 
 @section('content')
     <div style="padding:5px;">
-        <div class="container col-lg-6 col-md-8 col-sm-12 " style="background-color: green; border-radius: 10px; color: white;padding-top: 20px;padding-bottom: 30px">
+        <div class="container col-lg-6 col-md-8 col-sm-12 " style="background-color: #386641; border-radius: 10px; color: #F2EBCF;padding-top: 20px;padding-bottom: 30px">
             <h2 style=" text-align: center;padding-bottom: 15px">Bienvenu Ecolopnv</h2>
             <div class="row" >
                 <div class="col-lg-6 col-md-12 col-sm-12"><p>

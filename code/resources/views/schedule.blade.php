@@ -24,7 +24,7 @@ function switch_time($time){
             11h25";
         case 5:
             return "11h30 <br>
-            12h45";
+            12h15";
         case 6:
             return "12h20 <br>
             13h05";
@@ -113,7 +113,7 @@ foreach ($schedules as $schedule){
             const time = {{$schedule->heure}} + $k;
             const element = document.getElementById( time+"_{{$schedule->jour}}");
             element.innerHTML = "{{$schedule->codemat}} {{$schedule->classe}}";
-            element.style = "background-color: pink";
+            element.style = "background-color: #f2e8cf;color :#bc4749";
             <?php
         } ?>
 
